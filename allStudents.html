@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শিক্ষার্থী তালিকা</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .details {
+            display: none;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>শিক্ষার্থী তালিকা</h2>
+    <ul id="studentList"></ul>
+
+    <div class="details" id="studentDetails"></div>
+
+    <a href="form.html" class="back-btn">নতুন শিক্ষার্থী যোগ করুন</a>
+
+    <script>
+        function loadStudents() {
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+            let studentList = document.getElementById("studentList");
+
+            studentList.innerHTML = "";
+            students.forEach((student, index) => {
+                let li = document.createElement("li");
+                li.textContent = student.name + " (রোল: " + student.roll + ")";
+                li.onclick = function() {
+                    showDetails(index);
+                };
+                studentList.appendChild(li);
+            });
+        }
+
+        function showDetails(index) {
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+            let student = students[index];
+
+            let detailsDiv = document.getElementById("studentDetails");
+            detailsDiv.innerHTML = `
+                <h3>${student.name}</h3>
+                <p><b>বাবার নাম:</b> ${student.fatherName}</p>
+                <p><b>মায়ের নাম:</b> ${student.motherName}</p>
+                <p><b>মোবাইল নম্বর:</b> ${student.mobile}</p>
+                <p><b>গ্রাম:</b> ${student.village}</p>
+                <p><b>শ্রেণী:</b> ${student.class}</p>
+                <p><b>শাখা:</b> ${student.section}</p>
+                <p><b>রোল:</b> ${student.roll}</p>
+            `;
+            detailsDiv.style.display = "block";
+        }
+
+        loadStudents();
+    </script>
+
+</body>
+</html>
